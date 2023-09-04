@@ -1,5 +1,5 @@
 streamlit==1.25.0
-roboflow==1.1.4
 opencv-python==4.8.0.76
+roboflow==1.1.4
 pandas
 numpy
