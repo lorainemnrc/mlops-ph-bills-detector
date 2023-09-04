@@ -1,5 +1,4 @@
 streamlit==1.25.0
-libgl1-mesa-glx
 opencv-python-headless
 roboflow
 pandas
