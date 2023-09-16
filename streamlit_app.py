@@ -154,7 +154,7 @@ def main():
 
                 # Right column for displaying the summary table
                 with col2:
-                    st.subheader('Amount in PHP')
+                    st.subheader('Amount Summary (in PHP)')
                   
                     # Display total value
                     st.markdown("<div style='background-color: #CDFF00; color: black; padding: 5px; text-align: center;'>" ##00FFCE
