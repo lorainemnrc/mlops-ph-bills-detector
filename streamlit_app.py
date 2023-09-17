@@ -11,7 +11,7 @@ from gtts import gTTS
 # Load the trained model from Roboflow
 rf = Roboflow(api_key="5VImoUONxH3MRjhhlGls")
 project = rf.workspace().project("mlops-final-project-object-detection")
-model = project.version(1).model
+model = project.version(4).model
 
 language = 'en'
 file_path = os.path.dirname(__file__)
