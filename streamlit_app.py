@@ -15,7 +15,7 @@ model = project.version(1).model
 
 language = 'en'
 file_path = os.path.dirname(__file__)
-banner_img = os.path.join(file_path, "banner2.png")
+banner_img = os.path.join(file_path, "banner.png")
 
 
 def detect_objects(img, conf, overlap):
@@ -99,9 +99,8 @@ def main():
     # Set the page width
     st.set_page_config(layout="wide")
     
-    # Display the banner image
-    st.image(banner_img)
-
+    # Set title
+    st.title('Money Guard: Making sure the price is right!')
     # st.markdown("<h1 style='text-align: center;'>MoneyGuard: Secure Banknote Scanner</h1>", unsafe_allow_html=True)
 
     # Define columns for layout
@@ -109,6 +108,9 @@ def main():
 
     # Upload an image in the left column
     with st.sidebar:
+        # Display the banner image
+        st.image(banner_img)
+        
         st.sidebar.header("Options")
         uploaded_image = st.file_uploader("Upload an image", type=["jpg", "jpeg", "png", "JPG", "JPEG", "PNG"])
         st.divider()
