@@ -100,7 +100,13 @@ def main():
     st.set_page_config(layout="wide")
     
     # Set title
+    custom_color = "#D10A84"  # Replace with your desired color code
+    
+    # Apply custom CSS style for the title text color
+    st.write(f'<style>h1{{color: {custom_color};}}</style>', unsafe_allow_html=True)
     st.title('Money Guard: Making sure the price is right!')
+
+    
     st.divider()
     # st.markdown("<h1 style='text-align: center;'>MoneyGuard: Secure Banknote Scanner</h1>", unsafe_allow_html=True)
 
