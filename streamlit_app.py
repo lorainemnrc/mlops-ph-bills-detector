@@ -79,8 +79,8 @@ def get_predictions(img, pred_json):
         
         text_end = (int(x0) + text_width + 10, int(y0) - text_height - 10)
         
-        cv2.rectangle(annotated_img, bbox_start, bbox_end, color=(0, 255, 206), thickness=2)
-        cv2.rectangle(annotated_img, bbox_start, text_end, color=(0, 255, 206), thickness=cv2.FILLED) #206, 255, 0
+        cv2.rectangle(annotated_img, bbox_start, bbox_end, color=(0, 142, 70), thickness=2)
+        cv2.rectangle(annotated_img, bbox_start, text_end, color=(0, 142, 70), thickness=cv2.FILLED) #206, 255, 0; 0, 255, 206
         
         cv2.putText(
             annotated_img,
@@ -162,7 +162,7 @@ def main():
                     st.subheader('Amount Summary (in PHP)')
                   
                     # Display total value
-                    st.markdown("<div style='background-color: #CDFF00; color: black; padding: 5px; text-align: center;'>" ##00FFCE
+                    st.markdown("<div style='background-color: #46008E; color: black; padding: 5px; text-align: center;'>" ##00FFCE, #CDFF00
                                 f"<p style='font-size: 24px; font-weight: bold; margin-top: 0; margin-bottom: 0;'>{total_value}</p>"
                                 "<p style='font-style: italic; font-size: small; margin-top: 0; margin-bottom: 0;'>Total Amount</p>"
                                 "</div>", unsafe_allow_html=True)
