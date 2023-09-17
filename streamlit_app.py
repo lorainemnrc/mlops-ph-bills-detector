@@ -110,7 +110,7 @@ def main():
     # Upload an image in the left column
     with st.sidebar:
         # Display the banner image
-        st.image(banner_img, use_container_width=True)
+        st.image(banner_img)
         
         st.sidebar.header("Options")
         uploaded_image = st.file_uploader("Upload an image", type=["jpg", "jpeg", "png", "JPG", "JPEG", "PNG"])
