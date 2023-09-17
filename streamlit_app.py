@@ -111,6 +111,7 @@ def main():
     with st.sidebar:
         st.sidebar.header("Options")
         uploaded_image = st.file_uploader("Upload an image", type=["jpg", "jpeg", "png", "JPG", "JPEG", "PNG"])
+        st.divider()
         
     if uploaded_image is not None:
     
@@ -118,6 +119,7 @@ def main():
             # Sliders for confidence and overlap in the left column
             conf = st.slider("Confidence Threshold", min_value=0.0, max_value=1.0, value=0.6, step=0.01)
             overlap = st.slider("Overlap Threshold", min_value=0.0, max_value=1.0, value=0.4, step=0.01)
+            st.divider()
       
             if st.button("Detect Objects"):
             
