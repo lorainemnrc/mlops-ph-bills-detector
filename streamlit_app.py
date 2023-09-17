@@ -162,7 +162,7 @@ def main():
                     st.subheader('Amount Summary (in PHP)')
                   
                     # Display total value
-                    st.markdown("<div style='background-color: #46008E; color: black; padding: 5px; text-align: center;'>" ##00FFCE, #CDFF00
+                    st.markdown("<div style='background-color: #46008E; color: white; padding: 5px; text-align: center;'>" ##00FFCE, #CDFF00
                                 f"<p style='font-size: 24px; font-weight: bold; margin-top: 0; margin-bottom: 0;'>{total_value}</p>"
                                 "<p style='font-style: italic; font-size: small; margin-top: 0; margin-bottom: 0;'>Total Amount</p>"
                                 "</div>", unsafe_allow_html=True)
