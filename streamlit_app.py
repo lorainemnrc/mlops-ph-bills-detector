@@ -79,8 +79,8 @@ def get_predictions(img, pred_json):
         
         text_end = (int(x0) + text_width + 10, int(y0) - text_height - 10)
         
-        cv2.rectangle(annotated_img, bbox_start, bbox_end, color=(0, 142, 70), thickness=2)
-        cv2.rectangle(annotated_img, bbox_start, text_end, color=(0, 142, 70), thickness=cv2.FILLED) #206, 255, 0; 0, 255, 206
+        cv2.rectangle(annotated_img, bbox_start, bbox_end, color=(142, 0, 70), thickness=2)
+        cv2.rectangle(annotated_img, bbox_start, text_end, color=(142, 0, 70), thickness=cv2.FILLED) #206, 255, 0; 0, 255, 206
         
         cv2.putText(
             annotated_img,
@@ -88,7 +88,7 @@ def get_predictions(img, pred_json):
             (int(x0), int(y0) - 5),
             fontFace=cv2.FONT_HERSHEY_SIMPLEX,
             fontScale=0.35,
-            color=(0, 0, 0)
+            color=(255, 255, 255)
         )
         
     return annotated_img
