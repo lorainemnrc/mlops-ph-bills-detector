@@ -152,30 +152,28 @@ def main():
                 message_placeholder.empty()   
                 
                 # Center column for displaying the annotated image
-                with col1:
-                    st.subheader('Bills detected')
+                st.subheader('Bills detected')
                     
-                    st.text('Click to listen!')
-                    # Read text
-                    audio_bytes = get_audio(df_amount, total_value)
-                    st.audio(audio_bytes) 
-                        
-                    # Display the annotated image
-                    st.image(annotated_img, use_column_width=True, channels="BGR")
+                st.text('Click to listen!')
+                # Read text
+                audio_bytes = get_audio(df_amount, total_value)
+                st.audio(audio_bytes) 
 
-                # Right column for displaying the summary table
-                with col2:
-                    st.subheader('Amount Summary (in PHP)')
+                st.subheader('Amount Summary (in PHP)')
                   
-                    # Display total value
-                    st.markdown("<div style='background-color: #46008E; color: white; padding: 5px; text-align: center;'>" ##00FFCE, #CDFF00
-                                f"<p style='font-size: 24px; font-weight: bold; margin-top: 0; margin-bottom: 0;'>{total_value}</p>"
-                                "<p style='font-style: italic; font-size: small; margin-top: 0; margin-bottom: 0;'>Total Amount</p>"
-                                "</div>", unsafe_allow_html=True)
-                                
-                    # Display the summary
-                    st.dataframe(df_amount, use_container_width=True, hide_index=True)
-                       
+                # Display total value
+                st.markdown("<div style='background-color: #46008E; color: white; padding: 5px; text-align: center;'>" ##00FFCE, #CDFF00
+                            f"<p style='font-size: 24px; font-weight: bold; margin-top: 0; margin-bottom: 0;'>{total_value}</p>"
+                            "<p style='font-style: italic; font-size: small; margin-top: 0; margin-bottom: 0;'>Total Amount</p>"
+                            "</div>", unsafe_allow_html=True)
+                            
+                # Display the summary
+                st.dataframe(df_amount, use_container_width=True, hide_index=True)
+                    
+                # Display the annotated image
+                st.image(annotated_img, use_column_width=True, channels="BGR")
+
+   
 
 if __name__ == "__main__":
     main()
