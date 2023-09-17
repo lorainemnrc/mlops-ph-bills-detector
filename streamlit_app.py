@@ -101,6 +101,7 @@ def main():
     
     # Set title
     st.title('Money Guard: Making sure the price is right!')
+    st.divider()
     # st.markdown("<h1 style='text-align: center;'>MoneyGuard: Secure Banknote Scanner</h1>", unsafe_allow_html=True)
 
     # Define columns for layout
@@ -109,7 +110,13 @@ def main():
     # Upload an image in the left column
     with st.sidebar:
         # Display the banner image
-        st.image(banner_img, width=150)
+        # st.image(banner_img, width=150)
+        st.write(
+                f'<div style="display: flex; justify-content: center;">'
+                f'<img src="{banner_img}" style="width: 50%;">'
+                f'</div>',
+                unsafe_allow_html=True,
+            )
         
         st.sidebar.header("Options")
         uploaded_image = st.file_uploader("Upload an image", type=["jpg", "jpeg", "png", "JPG", "JPEG", "PNG"])
