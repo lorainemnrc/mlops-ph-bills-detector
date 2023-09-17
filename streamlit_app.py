@@ -15,7 +15,7 @@ model = project.version(1).model
 
 language = 'en'
 file_path = os.path.dirname(__file__)
-banner_img = os.path.join(file_path, "banner.png")
+banner_img = os.path.join(file_path, "mg_logo.png")
 
 
 def detect_objects(img, conf, overlap):
