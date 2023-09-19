@@ -28,7 +28,8 @@ def calculate_amount(pred_json):
                                          Total=('amount_php', 'sum'))
                         .reset_index().rename(columns={'class': 'Value'}))
     df_count['qty_words'] = df_count['Quantity'].apply(number_to_words)
-    return df_count.sort_values('qty_words', ascending=True)
+    df_count['value_num'] = df_count['Value'].str.strip('P').astype(float)
+    return df_count.sort_values('value_num', ascending=True)
                     
 # Define a function to format each row
 def format_row(row):
@@ -182,7 +183,7 @@ def main():
                                     "</div>", unsafe_allow_html=True)
                                     
                         # Display the summary
-                        st.dataframe(df_amount.drop(columns=['qty_words']), use_container_width=True, hide_index=True)
+                        st.dataframe(df_amount.drop(columns=['qty_words', 'value_num']), use_container_width=True, hide_index=True)
                         
                 else:
                     st.error("No bills detected. Kindly adjust the confidence and overlap thresholds or provide a different image")
