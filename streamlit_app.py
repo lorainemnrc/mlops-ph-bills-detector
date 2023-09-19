@@ -151,7 +151,7 @@ def main():
                 pred_json = detect_objects(img, conf, overlap)
                 if len(pred_json['predictions']) > 0:
                     if 'pred_json' in locals():
-                        df_amount = calculate_amount(pred_json)
+                        df_amount = calculate_amount(pred_json).drop(columns=['qty_words'])
                         total_value = df_amount.Total.sum()
                     
                     # Get predictions and annotate the image
