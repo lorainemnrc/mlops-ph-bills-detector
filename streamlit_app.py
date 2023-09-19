@@ -4,8 +4,9 @@ import numpy as np
 import os, io
 
 from roboflow import Roboflow
-import cv2
 from gtts import gTTS
+import inflect
+import cv2
 
 
 # Load the trained model from Roboflow
@@ -17,20 +18,26 @@ language = 'en'
 file_path = os.path.dirname(__file__)
 banner_img = os.path.join(file_path, "mg_logo.png")
 
-
 def detect_objects(img, conf, overlap):
     return model.predict(img, confidence=conf, overlap=overlap).json()
     
 def calculate_amount(pred_json):
     df_count = pd.DataFrame(pred_json['predictions'])
     df_count['amount_php'] = df_count['class'].str.split('P').str.get(-1).astype(float)
-    return (df_count.groupby('class').agg(Quantity=('amount_php', 'size'),
+    df_count = (df_count.groupby('class').agg(Quantity=('amount_php', 'size'),
                                          Total=('amount_php', 'sum'))
-                    .reset_index().rename(columns={'class': 'Value'}))
+                        .reset_index().rename(columns={'class': 'Value'}))
+    df_count['qty_words'] = df_count['Quantity'].apply(number_to_words)
+    return df_count
                     
 # Define a function to format each row
 def format_row(row):
-    return f"{row['Quantity']} {row['Value'].strip('P')} pesos"
+    return f"{row['qty_words']} {row['Value'].strip('P')} pesos"
+
+# Create a function to convert numeric values to words
+def number_to_words(number):
+    p = inflect.engine()
+    return p.number_to_words(number)
    
 # Generate audio from text   
 def get_audio(df, total_value):
