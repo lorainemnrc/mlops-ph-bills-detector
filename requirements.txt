@@ -4,3 +4,4 @@ roboflow
 pandas
 numpy
 gTTs
+inflect
