@@ -136,6 +136,13 @@ def main():
                 image_bytes = uploaded_image.read()
                 img = cv2.imdecode(np.frombuffer(image_bytes, np.uint8), cv2.IMREAD_COLOR)
 
+                 # Define the new dimensions (width, height)
+                new_width = 500  # Adjust to your desired width
+                new_height = 300  # Adjust to your desired height
+            
+                # Resize the image
+                img = cv2.resize(img, (new_width, new_height))
+
                 # Display a message
                 message_placeholder = st.empty()
                 message_placeholder.text("In progress... Please wait.")
