@@ -133,8 +133,8 @@ def main():
     
         with st.sidebar:
             # Sliders for confidence and overlap in the left column
-            conf = st.slider("Confidence Threshold", min_value=0.0, max_value=1.0, value=0.8, step=0.01)
-            overlap = st.slider("Overlap Threshold", min_value=0.0, max_value=1.0, value=0.6, step=0.01)
+            conf = st.slider("Confidence Threshold", min_value=0.0, max_value=1.0, value=0.6, step=0.01)
+            overlap = st.slider("Overlap Threshold", min_value=0.0, max_value=1.0, value=0.5, step=0.01)
             st.divider()
       
             if st.button("Detect Objects"):
