@@ -151,7 +151,7 @@ def main():
                 pred_json = detect_objects(img, conf, overlap)
                 if len(pred_json['predictions']) > 0:
                     if 'pred_json' in locals():
-                        df_amount = calculate_amount(pred_json).drop(columns=['qty_words'])
+                        df_amount = calculate_amount(pred_json)
                         total_value = df_amount.Total.sum()
                     
                     # Get predictions and annotate the image
@@ -182,7 +182,7 @@ def main():
                                     "</div>", unsafe_allow_html=True)
                                     
                         # Display the summary
-                        st.dataframe(df_amount, use_container_width=True, hide_index=True)
+                        st.dataframe(df_amount.drop(columns=['qty_words']), use_container_width=True, hide_index=True)
                         
                 else:
                     st.error("No bills detected. Kindly adjust the confidence and overlap thresholds or provide a different image")
