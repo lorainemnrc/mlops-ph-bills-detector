@@ -178,7 +178,7 @@ def main():
                         st.dataframe(df_amount, use_container_width=True, hide_index=True)
                         
                 else:
-                    st.error("No bills detected. Kindly adjust the confidence and overlap thresholds or provide a different image, icon="🚨")
+                    st.error("No bills detected. Kindly adjust the confidence and overlap thresholds or provide a different image")
                        
 
 if __name__ == "__main__":
