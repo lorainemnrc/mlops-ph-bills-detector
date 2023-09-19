@@ -26,10 +26,9 @@ def calculate_amount(pred_json):
     df_count['amount_php'] = df_count['class'].str.split('P').str.get(-1).astype(float)
     df_count = (df_count.groupby('class').agg(Quantity=('amount_php', 'size'),
                                          Total=('amount_php', 'sum'))
-                        .reset_index().rename(columns={'class': 'Value'})
-                        .sort_values('Value', ascending=True))
+                        .reset_index().rename(columns={'class': 'Value'}))
     df_count['qty_words'] = df_count['Quantity'].apply(number_to_words)
-    return df_count
+    return df_count.sort_values('qty_words', ascending=True)
                     
 # Define a function to format each row
 def format_row(row):
