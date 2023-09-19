@@ -143,6 +143,7 @@ def main():
                 
                 # Detect objects in the image
                 pred_json = detect_objects(img, conf, overlap)
+                print(pred_json)
                 if 'pred_json' in locals():
                     df_amount = calculate_amount(pred_json)
                     total_value = df_amount.Total.sum()
