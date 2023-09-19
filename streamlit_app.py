@@ -23,7 +23,6 @@ def detect_objects(img, conf, overlap):
     
 def calculate_amount(pred_json):
     df_count = pd.DataFrame(pred_json['predictions'])
-    print('df_count', df_count)
     df_count['amount_php'] = df_count['class'].str.split('P').str.get(-1).astype(float)
     return (df_count.groupby('class').agg(Quantity=('amount_php', 'size'),
                                          Total=('amount_php', 'sum'))
@@ -143,40 +142,43 @@ def main():
                 
                 # Detect objects in the image
                 pred_json = detect_objects(img, conf, overlap)
-                print(pred_json)
-                if 'pred_json' in locals():
-                    df_amount = calculate_amount(pred_json)
-                    total_value = df_amount.Total.sum()
-                
-                # Get predictions and annotate the image
-                annotated_img = get_predictions(img, pred_json)
-                
-                message_placeholder.empty()   
-                
-                # Center column for displaying the annotated image
-                with col1:
-                    st.subheader('Bills detected')
+                if len(pred_json['predictions']) > 0:
+                    if 'pred_json' in locals():
+                        df_amount = calculate_amount(pred_json)
+                        total_value = df_amount.Total.sum()
                     
-                    st.text('Click to listen!')
-                    # Read text
-                    audio_bytes = get_audio(df_amount, total_value)
-                    st.audio(audio_bytes) 
+                    # Get predictions and annotate the image
+                    annotated_img = get_predictions(img, pred_json)
+                    
+                    message_placeholder.empty()   
+                    
+                    # Center column for displaying the annotated image
+                    with col1:
+                        st.subheader('Bills detected')
                         
-                    # Display the annotated image
-                    st.image(annotated_img, use_column_width=True, channels="BGR")
+                        st.text('Click to listen!')
+                        # Read text
+                        audio_bytes = get_audio(df_amount, total_value)
+                        st.audio(audio_bytes) 
+                            
+                        # Display the annotated image
+                        st.image(annotated_img, use_column_width=True, channels="BGR")
 
-                # Right column for displaying the summary table
-                with col2:
-                    st.subheader('Amount Summary (in PHP)')
-                  
-                    # Display total value
-                    st.markdown("<div style='background-color: #46008E; color: white; padding: 5px; text-align: center;'>" ##00FFCE, #CDFF00
-                                f"<p style='font-size: 24px; font-weight: bold; margin-top: 0; margin-bottom: 0;'>{total_value}</p>"
-                                "<p style='font-style: italic; font-size: small; margin-top: 0; margin-bottom: 0;'>Total Amount</p>"
-                                "</div>", unsafe_allow_html=True)
-                                
-                    # Display the summary
-                    st.dataframe(df_amount, use_container_width=True, hide_index=True)
+                    # Right column for displaying the summary table
+                    with col2:
+                        st.subheader('Amount Summary (in PHP)')
+                      
+                        # Display total value
+                        st.markdown("<div style='background-color: #CDFF00; color: black; padding: 5px; text-align: center;'>" ##00FFCE
+                                    f"<p style='font-size: 24px; font-weight: bold; margin-top: 0; margin-bottom: 0;'>{total_value}</p>"
+                                    "<p style='font-style: italic; font-size: small; margin-top: 0; margin-bottom: 0;'>Total Amount</p>"
+                                    "</div>", unsafe_allow_html=True)
+                                    
+                        # Display the summary
+                        st.dataframe(df_amount, use_container_width=True, hide_index=True)
+                        
+                else:
+                    st.error("No bills detected. Kindly adjust the confidence and overlap thresholds or provide a different image, icon="🚨")
                        
 
 if __name__ == "__main__":
