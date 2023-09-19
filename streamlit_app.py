@@ -74,7 +74,7 @@ def get_predictions(img, pred_json):
         bbox_start, bbox_end = (int(x0), int(y0)), (int(x1), int(y1))
         
         # Calculate the size of the text rectangle based on text size
-        text = f"{pred_value} | Confidence: {pred_conf:.1%}"
+        text = f"{pred_value} | {pred_conf:.1%}"
         (text_width, text_height), _ = cv2.getTextSize(text, cv2.FONT_HERSHEY_SIMPLEX, 0.35, 2)
         
         text_end = (int(x0) + text_width + 10, int(y0) - text_height - 10)
