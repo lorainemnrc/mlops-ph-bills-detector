@@ -23,7 +23,7 @@ def detect_objects(img, conf, overlap):
     
 def calculate_amount(pred_json):
     df_count = pd.DataFrame(pred_json['predictions'])
-    print('df_count': df_count)
+    print('df_count', df_count)
     df_count['amount_php'] = df_count['class'].str.split('P').str.get(-1).astype(float)
     return (df_count.groupby('class').agg(Quantity=('amount_php', 'size'),
                                          Total=('amount_php', 'sum'))
