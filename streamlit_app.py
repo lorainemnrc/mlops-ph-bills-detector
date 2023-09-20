@@ -14,14 +14,64 @@ rf = Roboflow(api_key="5VImoUONxH3MRjhhlGls")
 project = rf.workspace().project("mlops-final-project-object-detection")
 model = project.version(4).model
 
+# Define global parameters
 language = 'en'
 file_path = os.path.dirname(__file__)
 banner_img = os.path.join(file_path, "mg_logo.png")
 
 def detect_objects(img, conf, overlap):
+    """
+    Return detected objects in an image using a pre-trained model.
+    
+    Parameters:
+    -------------------
+    img : str or bytes
+        The input image to be processed. It can be a file path (str) or image data (bytes).
+
+    conf : float
+        The confidence threshold for object detection. Detected objects with a confidence
+        score below this threshold will not be included in the results.
+
+    overlap : float
+        The overlap threshold for non-maximum suppression (NMS). It controls the degree
+        of overlap allowed between bounding boxes. Lower values result in stricter NMS.
+
+    Returns:
+    dict
+        A dictionary containing the detected objects and their associated information.
+        The structure of the dictionary depends on the model and may include information
+        such as object labels, bounding box coordinates, and confidence scores.
+        
+    Note:
+    - The `model` used for object detection should be pre-trained and compatible with
+      the `predict` method, accepting parameters for confidence and overlap thresholds.
+    - Ensure that the necessary dependencies and model files are available and properly
+      configured for object detection.
+    """
     return model.predict(img, confidence=conf, overlap=overlap).json()
     
 def calculate_amount(pred_json):
+    """
+    Return calculated values such as quantity and total amount
+    for different classes of predictions as a pandas DataFrame.    
+
+    Parameters:
+    -------------------
+    pred_json : dict
+        A JSON object containing prediction data. It is expected to have a structure
+        similar to {'predictions': [{'class': 'PredictionClass1'}, {'class': 'PredictionClass2'}, ...]}.
+
+    Returns:
+    df_count : pandas DataFrame
+        A DataFrame summarizing the quantity and total amount for each prediction class.
+        The DataFrame contains columns for 'Value' (class name), 'Quantity' (number of occurrences),
+        'Total' (sum of amounts), 'qty_words' (quantity in words), and 'value_num' (numeric value).
+
+    Note:
+    - The input JSON should have a 'predictions' key containing a list of dictionaries.
+    - The 'amount_php' field in the input JSON is expected to be in Philippine Peso format (e.g., 'P100.50').
+    - The function uses the 'number_to_words' function to convert quantity to words.
+    """
     df_count = pd.DataFrame(pred_json['predictions'])
     df_count['amount_php'] = df_count['class'].str.split('P').str.get(-1).astype(float)
     df_count = (df_count.groupby('class').agg(Quantity=('amount_php', 'size'),
@@ -33,15 +83,72 @@ def calculate_amount(pred_json):
                     
 # Define a function to format each row
 def format_row(row):
+    """
+    Format a row of data into a human-readable string.
+
+    Parameters:
+    -------------------
+    row : pandas Series or dict
+        A row of data containing at least 'qty_words' and 'Value' (class name)
+        information.
+
+    Returns:
+    formatted_str : str
+        A formatted string representing the quantity and value in pesos, e.g.,
+        "One hundred pesos."
+        
+    Note:
+    - The input row should contain at least the 'qty_words' and 'Value' fields.
+    - The 'Value' field is expected to be in Philippine Peso format (e.g., 'P100.00').
+    - The 'qty_words' field should contain the quantity description in words.
+    """
     return f"{row['qty_words']} {row['Value'].strip('P')} pesos"
 
 # Create a function to convert numeric values to words
 def number_to_words(number):
+    """
+    Convert a numeric value into words.
+
+    Parameters:
+    -------------------
+    number : int or float
+        The numeric value to be converted into words.
+
+    Returns:
+    words : str
+        A string representing the numeric value in words.
+
+    Note:
+    - The function uses the `inflect` library to perform the conversion.
+    - Ensure that the `inflect` library is properly installed and imported to use this function.
+    """
     p = inflect.engine()
     return p.number_to_words(number)
    
 # Generate audio from text   
 def get_audio(df, total_value):
+    """
+    Generate audio from text using a text-to-speech model.
+
+    Parameters:
+    -------------------
+    df : pandas DataFrame
+        A DataFrame containing formatted text rows.
+
+    total_value : str or numeric
+        The total value to be included in the audio.
+
+    language : str, optional (default='en')
+        The language for text-to-speech synthesis. Use ISO language codes (e.g., 'en' for English).
+
+    Returns:
+    audio_bytes : io.BytesIO
+        An audio representation of the formatted text and total value in BytesIO format.
+
+    Note:
+    - The function uses the gTTS (Google Text-to-Speech) library to generate audio.
+    - The `language` parameter specifies the language for the text-to-speech synthesis.
+    """
     # Read the results using text-to-speech models
     formatted_strings = df.apply(format_row, axis=1).tolist()
     start_text = "Here are the bills detected: "
@@ -65,7 +172,30 @@ def get_audio(df, total_value):
     
 # Define a function to get predictions and annotate the image
 def get_predictions(img, pred_json):
-    
+    """
+    Return the annotate an image with object detection predictions.
+
+    Parameters:
+    -------------------
+    img : numpy.ndarray
+        The input image on which predictions will be annotated. It should be a NumPy array
+        representing an image in standard format.
+
+    pred_json : dict
+        A JSON object containing prediction data. It is expected to have a structure similar to:
+        {'predictions': [{'class': 'ObjectClass1', 'confidence': 0.85, 'x': 100, 'y': 200, 'width': 50, 'height': 50},
+                         {'class': 'ObjectClass2', 'confidence': 0.92, 'x': 150, 'y': 250, 'width': 30, 'height': 30},
+                         ...]}
+
+    Returns:
+    annotated_img : numpy.ndarray
+        Annotated image with bounding boxes and prediction labels.
+
+    Note:
+    - The function uses OpenCV (cv2) for image processing and annotation.
+    - The input image should be in NumPy array format.
+    - The prediction data is expected to include class labels, confidence scores, and bounding box coordinates.
+    """
     # Create a copy of the input image
     annotated_img = img.copy()
     
