@@ -12,7 +12,7 @@ import cv2
 # Load the trained model from Roboflow
 rf = Roboflow(api_key="5VImoUONxH3MRjhhlGls")
 project = rf.workspace().project("mlops-final-project-object-detection")
-model = project.version(4).model
+model = project.version(3).model
 
 # Define global parameters
 language = 'en'
